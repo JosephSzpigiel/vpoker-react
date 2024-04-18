@@ -1,19 +1,29 @@
 import { Card, CardHeader, CardBody, CardFooter, Image, Button } from "@chakra-ui/react"
-import { useState } from "react"
-export default function PlayingCard({card}){
+import { useState, useEffect } from "react"
+export default function PlayingCard({card, inGame, cardIndex, hand, setToDiscard}){
 
     const [discard, setDiscard] = useState(false)
     function handleDiscard(e){
+        if(!discard){
+            setToDiscard(curr => [...curr, cardIndex])
+        }else{
+            setToDiscard(curr => curr.filter((i)=>{
+                return(i != cardIndex)
+            }))
+        }
         setDiscard(curr => !curr)
+
     }
 
+    useEffect(()=>setDiscard(false), [inGame])
+
     return(
-        <Card className={[discard ? "discard" : null]}>
+        <Card>
             <CardBody>
                 <Image
-                src={card.image}
+                src={card.image} className={[discard ? "discard" : null]}
                 />
-                <Button onClick={handleDiscard}>Discard</Button>
+                <Button onClick={handleDiscard} isDisabled={!inGame}>{discard? 'Keep': 'Discard'}</Button>
             </CardBody>
         </Card>
     )

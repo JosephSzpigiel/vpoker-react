@@ -12,6 +12,7 @@ export default function Page() {
 
   const [deckId, setDeckId] = useState('')
   const [hand, setHand] = useState(defaultHand)
+  const [toDiscard, setToDiscard] = useState([])
   const [chips, setChips] = useState(3)
   const [inGame, setIngame] = useState(false)
 
@@ -33,15 +34,19 @@ export default function Page() {
       console.log("List is updated", hand);
   }, [hand]);
 
+  function testToDiscard(){
+    console.log(toDiscard)
+  }
+
 
   return (
     <>
       <Heading>Virtual Poker</Heading>
       <Center height={'lg'} bg={'skyblue'}>
         <VStack>
-          <Hand hand={hand} inGame={inGame}/>
-          <Button onClick={handleClick}>Test</Button>
-          <Controls chips={chips} setChips={setChips} handleClick={handleClick} inGame={inGame} setIngame={setIngame}/>
+          <Hand hand={hand} inGame={inGame} setToDiscard={setToDiscard}/>
+          <Button onClick={testToDiscard}>Test</Button>
+          <Controls hand={hand} setHand={setHand} chips={chips} deckId={deckId} toDiscard={toDiscard} setToDiscard={setToDiscard} setChips={setChips} handleClick={handleClick} inGame={inGame} setIngame={setIngame}/>
         </VStack>
       </Center>
     </>

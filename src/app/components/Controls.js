@@ -2,7 +2,7 @@ import { Button, Box, Card, Flex, NumberDecrementStepper, NumberIncrementStepper
 import { useState } from "react";
 
 
-export default function Controls({chips, setChips, handleClick, inGame, setIngame}){
+export default function Controls({chips, hand, setHand, setChips, handleClick, inGame, setIngame, toDiscard, setToDiscard, deckId}){
 
     const [bet, setBet] = useState(1)
     const [currBet, setCurrBet] = useState(null)
@@ -19,9 +19,29 @@ export default function Controls({chips, setChips, handleClick, inGame, setIngam
     }
 
     function handleEnd(e){
+        if(toDiscard){
+            fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=${toDiscard.length}`)
+            .then(r  => r.json())
+            .then(result => {
+                console.log(result.cards)
+                let newCardIndex = 0 
+                const newHand = hand.map((card, index)=>{
+                    if(toDiscard.includes(index)){
+                        newCardIndex += 1
+                        return(result.cards[newCardIndex-1])
+                    }else{
+                        return(card)
+                    }
+                })
+                setHand(newHand)
+                console.log(hand)
+            })
+        }
+
         setIngame(false)
         setChips(curr => parseInt(curr) + parseInt(bet))
         setCurrBet(null)
+        setToDiscard([])
     }
 
 
@@ -45,7 +65,9 @@ export default function Controls({chips, setChips, handleClick, inGame, setIngam
                         </NumberInput>
                     </Box>
                     <Spacer/>
-                    <Button onClick={inGame ? handleEnd : handleBet}>{inGame ? 'Redeal' : 'Place Bet'}</Button>
+                    <Box>
+                        <Button onClick={inGame ? handleEnd : handleBet}>{inGame ? 'Redeal' : 'Place Bet'}</Button>
+                    </Box>
                 </Flex>
             </VStack>
         </Card>
