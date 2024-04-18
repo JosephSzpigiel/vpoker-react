@@ -18,10 +18,10 @@ export default function PlayingCard({card, inGame, cardIndex, hand, setToDiscard
     useEffect(()=>setDiscard(false), [inGame])
 
     return(
-        <Card>
+        <Card bg={'transparent'} shadow={'none'}>
             <CardBody>
                 <Image
-                src={card.image} className={[discard ? "discard" : null]}
+                src={card.image} opacity={discard ? .4 : 1}
                 />
                 <Button onClick={handleDiscard} isDisabled={!inGame}>{discard? 'Keep': 'Discard'}</Button>
             </CardBody>

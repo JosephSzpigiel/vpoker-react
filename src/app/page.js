@@ -13,7 +13,7 @@ export default function Page() {
   const [deckId, setDeckId] = useState('')
   const [hand, setHand] = useState(defaultHand)
   const [toDiscard, setToDiscard] = useState([])
-  const [chips, setChips] = useState(3)
+  const [chips, setChips] = useState(10)
   const [inGame, setIngame] = useState(false)
 
   
@@ -21,7 +21,6 @@ export default function Page() {
     fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
     .then(r => r.json())
     .then(data => {
-      console.log(data.deck_id)
       setDeckId(data.deck_id)
       fetch(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=5`)
       .then(r  => r.json())
@@ -29,10 +28,6 @@ export default function Page() {
         setHand(result.cards)
       })
     })}
-
-    useEffect(() => {
-      console.log("List is updated", hand);
-  }, [hand]);
 
   function testToDiscard(){
     console.log(toDiscard)
