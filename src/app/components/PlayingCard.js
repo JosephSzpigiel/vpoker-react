@@ -18,8 +18,8 @@ export default function PlayingCard({card, inGame, cardIndex, hand, setToDiscard
     useEffect(()=>setDiscard(false), [inGame])
 
     return(
-        <Card bg={'transparent'} shadow={'none'}>
-            <CardBody>
+        <Card bg={'transparent'} shadow={'none'} margin={'0px'}  padding={'0px'}>
+            <CardBody padding={'5px'}>
                 <Image
                 src={card.image} opacity={discard ? .4 : 1}
                 />
