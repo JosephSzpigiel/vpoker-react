@@ -21,9 +21,9 @@ export default function PlayingCard({card, inGame, cardIndex, hand, setToDiscard
         <Card bg={'transparent'} shadow={'none'} margin={'0px'}  padding={'0px'}>
             <CardBody padding={'5px'}>
                 <Image
-                src={card.image} opacity={discard ? .4 : 1}
+                src={card.image} opacity={discard ? .4 : 1} paddingBottom={'5px'}
                 />
-                <Button onClick={handleDiscard} isDisabled={!inGame}>{discard? 'Keep': 'Discard'}</Button>
+                <Button onClick={handleDiscard} isDisabled={!inGame} width={'100%'}>{discard? 'Keep': 'Discard'}</Button>
             </CardBody>
         </Card>
     )

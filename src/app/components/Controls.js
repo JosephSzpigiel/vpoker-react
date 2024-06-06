@@ -6,14 +6,14 @@ export default function Controls({chips, hand, setHand, setChips, handleClick, i
 
     const [bet, setBet] = useState(1)
     const [currBet, setCurrBet] = useState(null)
-
-    let results = []
+    const [results, setResults] = useState([])
 
     function handleChange(bet){
         setBet(bet)
     }
 
     function handleBet(e){
+        setResults([])
         setIngame(true)
         setChips(curr => curr - bet)
         setCurrBet(bet)
@@ -35,19 +35,35 @@ export default function Controls({chips, hand, setHand, setChips, handleClick, i
                         return(card)
                     }
                 })
-                results = assessHand(newHand)
-                console.log(results)
-                setChips(curr => parseInt(curr) + parseInt(bet*results[1]))
+                const res = assessHand(newHand)
+                setResults(res)
+                const newChips = parseInt(chips) + parseInt(bet*res[1]) 
+                setChips(newChips)
                 setHand(newHand)
                 setCurrBet(null)
+                setBet(curr => {
+                    if(curr > newChips){
+                        return newChips
+                    }else{
+                        return curr
+                    }
+                })
                 setToDiscard([])
                 setIngame(false)
             })
         }else{
-            results = assessHand(hand)
-            console.log(results)
-            setChips(curr => parseInt(curr) + parseInt(bet*results[1]))
+            const res = assessHand(newHand)
+            setResults(res)
+            const newChips = parseInt(chips) + parseInt(bet*res[1]) 
+            setChips(newChips)
             setCurrBet(null)
+            setBet(curr => {
+                if(curr > newChips){
+                    return newChips
+                }else{
+                    return curr
+                }
+            })
             setToDiscard([])
             setIngame(false)
         }
@@ -203,17 +219,16 @@ export default function Controls({chips, hand, setHand, setChips, handleClick, i
 
 
     return(
-        <Card direction={'row'} padding={'10px'} w={'400px'}>
-            <VStack>
-
-                {currBet ? <Text align={'center'}>Current Bet: {currBet}</Text> : <Text> Current Bet:</Text>}
+        <Card direction={'row'} padding={'10px'} minW={'400px'}>
+            <VStack width={'full'}>
+                {results ? <Text align={'center'}>{results[0]} Winnings: {results[1]}</Text> : currBet ? <Text align={'center'}>Current Bet: {currBet}</Text> : <Text> Current Bet:</Text>}
                 <Flex>
                     <Center h={'100%'}>
                         <Text as='b'>Total Chips: {chips}</Text>
                     </Center>
-                    <Spacer/>
+                    {/* <Spacer/> */}
                     <Box direction={'row'} paddingLeft={'5px'} paddingRight={'5px'}>
-                        <NumberInput max={Math.min(5,chips)} min={1} value={bet} onChange={handleChange} isDisabled={inGame}>
+                        <NumberInput max={Math.min(5,chips)} min={1} value={bet} onChange={handleChange} isDisabled={inGame || chips === 0}>
                             <NumberInputField w={'60px'}/>
                             <NumberInputStepper>
                                 <NumberIncrementStepper/>
@@ -221,10 +236,14 @@ export default function Controls({chips, hand, setHand, setChips, handleClick, i
                             </NumberInputStepper>
                         </NumberInput>
                     </Box>
-                    <Spacer/>
-                    <Box>
-                        <Button onClick={inGame ? handleEnd : handleBet}>{inGame ? 'Redeal' : 'Place Bet'}</Button>
-                    </Box>
+                    {/* <Spacer/> */}
+                    {/* <Box> */}
+                        <Button onClick={inGame ? handleEnd : handleBet}
+                        isDisabled={chips <= 0 && inGame === false ? true : false}
+                        >
+                            {inGame ? 'Redeal' : 'Place Bet'}
+                        </Button>
+                    {/* </Box> */}
                 </Flex>
             </VStack>
         </Card>

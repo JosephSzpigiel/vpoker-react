@@ -11,7 +11,7 @@ export default function Hand({hand, inGame, setToDiscard}){
     });
 
     return(
-        <HStack>
+        <HStack width={'90%'} justify={'center'}>
             {CardComps}
         </HStack>
     )
