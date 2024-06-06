@@ -13,7 +13,7 @@ export default function Page() {
   const [deckId, setDeckId] = useState('')
   const [hand, setHand] = useState(defaultHand)
   const [toDiscard, setToDiscard] = useState([])
-  const [chips, setChips] = useState(1)
+  const [chips, setChips] = useState(50)
   const [inGame, setIngame] = useState(false)
 
   
