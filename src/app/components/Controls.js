@@ -224,7 +224,7 @@ export default function Controls({chips, hand, setHand, setChips, handleClick, i
                 {results ? <Text align={'center'}>{results[0]} Winnings: {results[1]}</Text> : currBet ? <Text align={'center'}>Current Bet: {currBet}</Text> : <Text> Current Bet:</Text>}
                 <Flex>
                     <Center h={'100%'}>
-                        <Text as='b'>Total Chips: {chips}</Text>
+                        <Text as='b'>Total Chips:  {chips}</Text>
                     </Center>
                     {/* <Spacer/> */}
                     <Box direction={'row'} paddingLeft={'5px'} paddingRight={'5px'}>
